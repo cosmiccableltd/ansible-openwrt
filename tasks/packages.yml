@@ -3,6 +3,8 @@
   stat:
     path: "{{ openwrt_remote_opkg_lists_dir }}"
   register: _opkg_lists
+  when:
+    - openwrt_opkg_update
 
 - name: get current system time
   command: date +%s
@@ -16,7 +18,7 @@
     name: opkg
     update_cache: true
   register: _update
-  when: 
+  when:
     - (not _opkg_lists.stat.exists or _epoch.stdout|int - _opkg_lists.stat.mtime > 86400)
     - openwrt_opkg_update
   failed_when: not _opkg_lists.stat.exists and _update.failed
