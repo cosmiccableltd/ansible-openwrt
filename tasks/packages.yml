@@ -1,7 +1,6 @@
 ---
 - name: opkg update
-  when:
-    - openwrt_opkg_update
+  when: openwrt_opkg_update == True
   block:
   - name: check whether opkg caches need update
     stat:
